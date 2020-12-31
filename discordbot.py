@@ -19,7 +19,7 @@ async def ping(ctx):
 
 
 @bot.command()
-async def greet(ctx):
+async def greet1(ctx):
     await ctx.send("Say hello!")
 
     def check(m):
@@ -27,5 +27,19 @@ async def greet(ctx):
 
     msg = await bot.wait_for("message", check=check)
     await ctx.send(f"Hello {msg.author}!")
+
+
+# 一度送信したメッセージを消す
+@bot.command()
+async def greet2(ctx):
+    delete_target_msg = await ctx.send("Say hello!")
+
+    def check(m):
+        return m.content == "hello" and m.channel == ctx.channel
+
+    msg = await bot.wait_for("message", check=check)
+    await delete_target_msg.delete
+    await ctx.send(f"Hello {msg.author}!")
+
 
 bot.run(token)
