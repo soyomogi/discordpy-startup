@@ -46,7 +46,7 @@ async def greet2(ctx):
 @bot.command()
 async def boshu(ctx):
     def check(m):
-        return m.channel == ctx.channel & m.author == ctx.author
+        return m.channel == ctx.channel and m.author == ctx.author
 
     announce_msg1 = await ctx.send("タイトル")
     input_msg1 = await bot.wait_for("message", check=check)
