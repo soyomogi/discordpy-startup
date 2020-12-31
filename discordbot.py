@@ -18,4 +18,14 @@ async def ping(ctx):
     await ctx.send('pong')
 
 
+@bot.command()
+async def greet(ctx):
+    await ctx.send("Say hello!")
+
+    def check(m):
+        return m.content == "hello" and m.channel == ctx.channel
+
+    msg = await bot.wait_for("message", check=check)
+    await ctx.send(f"Hello {msg.author}!")
+
 bot.run(token)
