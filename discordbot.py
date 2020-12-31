@@ -1,4 +1,5 @@
 from discord.ext import commands
+import discord
 import os
 import traceback
 
@@ -38,7 +39,7 @@ async def greet2(ctx):
         return m.content == "hello" and m.channel == ctx.channel
 
     msg = await bot.wait_for("message", check=check)
-    await bot.delete_message(delete_target_msg)
+    await discord.Message.delete(delete_target_msg)
     await ctx.send(f"Hello {msg.author}!")
 
 
