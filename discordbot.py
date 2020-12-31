@@ -43,4 +43,19 @@ async def greet2(ctx):
     await ctx.send(f"Hello {msg.author}!")
 
 
+@bot.command()
+async def boshu(ctx):
+    def check(m):
+        return m.channel == ctx.channel & m.author == ctx.author
+
+    announce_msg1 = await ctx.send("タイトル")
+    input_msg1 = await bot.wait_for("message", check=check)
+    await discord.Message.delete(announce_msg1)
+    announce_msg2 = await ctx.send("時間帯")
+    input_msg2 = await bot.wait_for("message", check=check)
+    await discord.Message.delete(announce_msg2)
+
+    await ctx.send(f"タイトル: {input_msg1.content}\n時間帯: {input_msg2.content}")
+
+
 bot.run(token)
