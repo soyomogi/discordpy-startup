@@ -2,6 +2,7 @@ from discord.ext import commands
 import discord
 import os
 import traceback
+import textwrap
 
 bot = commands.Bot(command_prefix='/')
 token = os.environ['DISCORD_BOT_TOKEN']
@@ -48,14 +49,33 @@ async def boshu(ctx):
     def check(m):
         return m.channel == ctx.channel and m.author == ctx.author
 
-    announce_msg1 = await ctx.send("タイトル")
-    input_msg1 = await bot.wait_for("message", check=check)
-    await discord.Message.delete(announce_msg1)
-    announce_msg2 = await ctx.send("時間帯")
-    input_msg2 = await bot.wait_for("message", check=check)
-    await discord.Message.delete(announce_msg2)
+    announce_msg_title = await ctx.send("募集タイトルを入力してください")
+    input_msg_title = await bot.wait_for("message", check=check)
+    await discord.Message.delete(announce_msg_title)
+    announce_msg_num = await ctx.send("最大募集人数を入力してください")
+    input_msg_num = await bot.wait_for("message", check=check)
+    await discord.Message.delete(announce_msg_num)
+    announce_msg_time = await ctx.send("日付, 時間を入力してください")
+    input_msg_time = await bot.wait_for("message", check=check)
+    await discord.Message.delete(announce_msg_time)
+    announce_msg_misc = await ctx.send("備考, 参加条件などを入力してください")
+    input_msg_misc = await bot.wait_for("message", check=check)
+    await discord.Message.delete(announce_msg_misc)
 
-    await ctx.send(f"タイトル: {input_msg1.content}\n時間帯: {input_msg2.content}")
+    boshu_body = textwrap.dedent(f"""
+        @here {input_msg_title.content}募集 ＠{input_msg_num.content}
+        ```
+        ■募集者: {ctx.author.name}
+        ■日付, 時間: {input_msg_time.content}
+        ■備考, 参加条件など: {input_msg_misc.content}
+        ■参加予定者: soyomogi
+        ```""")
+
+    await discord.Message.delete(input_msg_title)
+    await discord.Message.delete(input_msg_num)
+    await discord.Message.delete(input_msg_time)
+    await discord.Message.delete(input_msg_misc)
+    await ctx.send(boshu_body)
 
 
 bot.run(token)
