@@ -21,30 +21,6 @@ async def ping(ctx):
 
 
 @bot.command()
-async def greet1(ctx):
-    await ctx.send("Say hello!")
-
-    def check(m):
-        return m.content == "hello" and m.channel == ctx.channel
-
-    msg = await bot.wait_for("message", check=check)
-    await ctx.send(f"Hello {msg.author}!")
-
-
-# 一度送信したメッセージを消す
-@bot.command()
-async def greet2(ctx):
-    delete_target_msg = await ctx.send("Say hello!")
-
-    def check(m):
-        return m.content == "hello" and m.channel == ctx.channel
-
-    msg = await bot.wait_for("message", check=check)
-    await discord.Message.delete(delete_target_msg)
-    await ctx.send(f"Hello {msg.author}!")
-
-
-@bot.command()
 async def boshu(ctx):
     def check(m):
         return m.channel == ctx.channel and m.author == ctx.author
@@ -68,7 +44,6 @@ async def boshu(ctx):
         ■募集者: {ctx.author.name}
         ■日付, 時間: {input_msg_time.content}
         ■備考, 参加条件など: {input_msg_misc.content}
-        ■参加予定者: soyomogi
         ```""")
 
     await discord.Message.delete(input_msg_title)
